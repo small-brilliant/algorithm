@@ -1,10 +1,17 @@
-package isbst
+package main
+
+import "fmt"
 
 type Node struct {
 	Val   int
 	Right *Node
 	Left  *Node
 }
+
+func NewNode(v int) *Node {
+	return &Node{Val: v}
+}
+
 type Info struct {
 	isBST bool
 	maxV  int
@@ -27,7 +34,7 @@ func process(head *Node) *Info {
 	}
 	isBST := true
 	left, right := process(head.Left), process(head.Right)
-	var maxV, minV int
+	maxV, minV := head.Val, head.Val
 	if left != nil {
 		maxV = left.maxV
 		minV = left.minV
@@ -57,4 +64,14 @@ func min(a, b int) int {
 		return b
 	}
 	return a
+}
+func main() {
+	head := NewNode(5)
+	head.Left = NewNode(3)
+	head.Left.Left = NewNode(1)
+	head.Left.Right = NewNode(4)
+	head.Right = NewNode(8)
+	head.Right.Left = NewNode(7)
+	head.Right.Right = NewNode(9)
+	fmt.Println(IsBST(head))
 }
