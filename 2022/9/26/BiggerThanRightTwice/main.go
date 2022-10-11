@@ -4,7 +4,7 @@ import (
 	"algorithm/utils"
 	"fmt"
 )
-
+// i位置左边比a[i]*2还大的个数。
 func biggerThanRightTwice(a []int) int {
 	b := make([]int, len(a))
 	copy(a, b)

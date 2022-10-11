@@ -8,18 +8,18 @@ import (
 
 func helanFlag(a []int, x int) []int {
 	l, r := 0, len(a)-1
-	i := 0
-	for i <= r && l < r {
-		if a[i] > x {
-			a[i], a[r] = a[r], a[i]
+	cur := 0
+	for cur <= r && l < r {
+		if a[cur] > x {
+			a[cur], a[r] = a[r], a[cur]
 			r--
 			continue
-		} else if a[i] < x {
-			a[i], a[l] = a[l], a[i]
+		} else if a[cur] < x {
+			a[cur], a[l] = a[l], a[cur]
 			l++
-			i++
+			cur++
 		} else {
-			i++
+			cur++
 		}
 	}
 	return a

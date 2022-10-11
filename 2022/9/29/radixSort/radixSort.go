@@ -25,6 +25,7 @@ func radixsort(a []int) []int {
 			idx := getDigit(v, d)
 			count[idx]++
 		}
+		// 表示当前位数的最后位置
 		for i := 1; i < 10; i++ {
 			count[i] += count[i-1]
 		}
