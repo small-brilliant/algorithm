@@ -19,14 +19,14 @@ func GenerateWater(n int) (ohh, hoh, hho int) {
 	for i := 0; i < n; i++ {
 		select {
 		case <-ox:
-			ohh++
 			_, _ = <-hy2, <-hy1
+			ohh++
 		case <-hy1:
-			hoh++
 			_, _ = <-ox, <-hy2
+			hoh++
 		case <-hy2:
-			hho++
 			_, _ = <-hy1, <-ox
+			hho++
 		}
 	}
 	wg.Wait()

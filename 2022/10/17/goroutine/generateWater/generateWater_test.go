@@ -6,6 +6,10 @@ import (
 )
 
 func TestGenerateWater(t *testing.T) {
-	ohh, hoh, hho := GenerateWater(210009)
-	fmt.Println(ohh, hoh, hho)
+	N := 2100093
+	ohh, hoh, hho := GenerateWater(N)
+	N /= 3
+	fmt.Println(float64(ohh) / float64(N))
+	fmt.Println(float64(hoh) / float64(N))
+	fmt.Println(float64(hho) / float64(N))
 }
