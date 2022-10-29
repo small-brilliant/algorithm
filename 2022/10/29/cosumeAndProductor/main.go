@@ -5,30 +5,30 @@ import (
 	"time"
 )
 
-func product(ch chan int, stopCh chan bool) {
+func product(ch chan int, stopCh chan struct{}) {
 	for j := 0; j < 100; j++ {
 		ch <- j
 		time.Sleep(time.Millisecond)
 	}
-	stopCh <- true
+	close(stopCh)
 }
-func comsumeA(ch chan int, stopCh chan bool) {
+func comsumeA(ch chan int, stopCh chan struct{}) {
 	for {
 		select {
 		case c := <-ch:
-			fmt.Println("Receive C", c)
-		case _ = <-stopCh:
+			fmt.Println("comsumeA", c)
+		case <-stopCh:
 			goto end
 		}
 	}
 end:
 }
-func comsumeB(ch chan int, stopCh chan bool) {
+func comsumeB(ch chan int, stopCh chan struct{}) {
 	for {
 		select {
 		case c := <-ch:
-			fmt.Println("Receive C", c)
-		case _ = <-stopCh:
+			fmt.Println("comsumeB", c)
+		case <-stopCh:
 			goto end
 		}
 	}
@@ -38,13 +38,24 @@ end:
 func main() {
 
 	ch := make(chan int)
-
-	stopCh := make(chan bool)
+	ch1 := make(chan int)
+	ch2 := make(chan int)
+	stopCh := make(chan struct{})
 
 	go product(ch, stopCh)
-	go comsumeA(ch, stopCh)
-	go comsumeB(ch, stopCh)
-	time.Sleep(10 * time.Second)
+	go comsumeA(ch1, stopCh)
+	go comsumeB(ch2, stopCh)
+	for {
+		select {
+		case c := <-ch:
+			ch1 <- c
+		case c := <-ch:
+			ch2 <- c
+		case <-stopCh:
+			goto end
+		}
+	}
+end:
 }
 
 // func PrintA(a chan int) {
